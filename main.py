@@ -24,6 +24,14 @@ with st.sidebar:
     st.title("📚 Knowledge Base")
     st.info(f"Session ID: {st.session_state.session_id[:8]}")
     
+    # Optimise For option for knowledge base
+    kb_optimise_for = st.radio(
+        "Optimise For",
+        options=["Cost", "Power"],
+        index=0,  # Default to "Cost"
+        key="kb_optimise_for"
+    )
+    
     tab_file, tab_url = st.tabs(["📄 File", "🔗 URL"])
     
     with tab_file:
@@ -31,7 +39,7 @@ with st.sidebar:
         if st.button("Ingest Document", use_container_width=True):
             if uploaded_file:
                 with st.spinner("Processing document..."):
-                    success = client.upload_document(uploaded_file)
+                    success = client.upload_document(uploaded_file, optimize_for=kb_optimise_for.lower())
                     if success:
                         st.success("Document indexed successfully.")
             else:
@@ -42,7 +50,7 @@ with st.sidebar:
         if st.button("Ingest URL", use_container_width=True):
             if url_input:
                 with st.spinner("Scraping and indexing..."):
-                    success = client.ingest_url(url_input)
+                    success = client.ingest_url(url_input, optimize_for=kb_optimise_for.lower())
                     if success:
                         st.success("URL indexed successfully.")
             else:
@@ -56,6 +64,15 @@ with st.sidebar:
 
 # --- Main Interface ---
 st.title("Jarvis Professional Assistant")
+
+# Optimise For option for chat
+chat_optimise_for = st.radio(
+    "Optimise For",
+    options=["Cost", "Power"],
+    index=0,  # Default to "Cost"
+    key="chat_optimise_for",
+    horizontal=True
+)
 
 # Display History
 for message in st.session_state.messages:
@@ -72,7 +89,7 @@ if prompt := st.chat_input("How can I help you?"):
     # 2. Assistant Response
     with st.chat_message("assistant"):
         with st.spinner("Analyzing knowledge base..."):
-            response_text = client.send_message(prompt, st.session_state.session_id)
+            response_text = client.send_message(prompt, st.session_state.session_id, optimize_for=chat_optimise_for.lower())
             st.markdown(response_text)
             
     # 3. Save Context

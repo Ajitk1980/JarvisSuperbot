@@ -1,0 +1,506 @@
+{
+  "name": "Jugaad_Jarvis_Superbot_Ingestion_Flow",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "={{ $json.body.url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        208,
+        192
+      ],
+      "id": "32779f6b-ee48-4302-bacd-66880bdc128d",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "=PageContent",
+              "cssSelector": "body"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        496,
+        192
+      ],
+      "id": "0c1a7bee-4a1e-4de2-9833-4b800bee7802",
+      "name": "HTML"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        656,
+        336
+      ],
+      "id": "c8e2bc20-7ccb-4ca9-b80f-19120258fc11",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "textSplittingMode": "custom",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "DataType",
+                "value": "Test"
+              }
+            ]
+          }
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1.1,
+      "position": [
+        1536,
+        944
+      ],
+      "id": "41542bca-772c-4f01-b658-d514e248a875",
+      "name": "Default Data Loader1"
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        1152,
+        480
+      ],
+      "id": "a51ae1c5-5c5e-4750-843e-93b5eba896b0",
+      "name": "Embeddings Ollama1",
+      "credentials": {
+        "ollamaApi": {
+          "id": "lZOa0aVphDtb3g6H",
+          "name": "Ollama account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chunkSize": 500,
+        "chunkOverlap": 50,
+        "options": {
+          "splitCode": "markdown"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        1136
+      ],
+      "id": "f712f0b2-850b-45a1-9405-6c199847785b",
+      "name": "Recursive Character Text Splitter1"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.embeddingsGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1088,
+        1040
+      ],
+      "id": "fdb57990-ed39-44e4-a7d9-9a45cd70e246",
+      "name": "Embeddings Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "n0mZYvFa1iWzYxFD",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "jugaad-jarvis-superbot-ingestion",
+          "mode": "list",
+          "cachedResultName": "jugaad-jarvis-superbot-ingestion"
+        },
+        "options": {
+          "pineconeNamespace": "ollama"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        1152,
+        304
+      ],
+      "id": "2b9dd18a-91f1-41eb-b0cc-8a3c7645fa62",
+      "name": "Pinecone (Ollama)",
+      "credentials": {
+        "pineconeApi": {
+          "id": "U34X89o6rhxbIusc",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "pineconeIndex": {
+          "__rl": true,
+          "value": "jugaad-jarvis-superbot-ingestion",
+          "mode": "list",
+          "cachedResultName": "jugaad-jarvis-superbot-ingestion"
+        },
+        "options": {
+          "pineconeNamespace": "Gemini"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
+      "typeVersion": 1.3,
+      "position": [
+        1088,
+        784
+      ],
+      "id": "5ef9c29e-e859-4c93-a182-a1200f24eff2",
+      "name": "Pinecone (Gemini)",
+      "credentials": {
+        "pineconeApi": {
+          "id": "U34X89o6rhxbIusc",
+          "name": "PineconeApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.body.url }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    },
+                    "id": "843f9a1e-b55b-482d-8321-f87d66252770"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "30a0baf2-aa2b-4709-8ab6-e3252204ec02",
+                    "leftValue": "={{ $json.file_upload[0].filename }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notEmpty",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -96,
+        336
+      ],
+      "id": "aceeff53-0c12-4d25-89af-541d0579a863",
+      "name": "Switch (File upload vs URL)"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Webhook').item.json.body.optimise_for }}",
+                    "rightValue": "cost",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    },
+                    "id": "843f9a1e-b55b-482d-8321-f87d66252770"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "30a0baf2-aa2b-4709-8ab6-e3252204ec02",
+                    "leftValue": "={{ $('Webhook').item.json.body.optimise_for }}",
+                    "rightValue": "power",
+                    "operator": {
+                      "type": "string",
+                      "operation": "contains"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        768
+      ],
+      "id": "bda62f35-78c3-416c-ac61-d0ca5ea54802",
+      "name": "Switch (cost vs power)"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "f509ced2-2339-455f-b1e8-4350981cf824",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -320,
+        336
+      ],
+      "id": "e4abd321-cc5a-4f4d-b816-84a91eb1ace0",
+      "name": "Webhook",
+      "webhookId": "f509ced2-2339-455f-b1e8-4350981cf824"
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({output: $json.output}) }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        1600,
+        304
+      ],
+      "id": "fc534e2c-29b5-4143-ba7b-b6280b73a1f6",
+      "name": "Respond to Webhook"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Switch (cost vs power)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader1": {
+      "ai_document": [
+        [
+          {
+            "node": "Pinecone (Ollama)",
+            "type": "ai_document",
+            "index": 0
+          },
+          {
+            "node": "Pinecone (Gemini)",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone (Ollama)",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter1": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader1",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Google Gemini": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Pinecone (Gemini)",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch (File upload vs URL)": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Switch (cost vs power)": {
+      "main": [
+        [
+          {
+            "node": "Pinecone (Ollama)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Pinecone (Gemini)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Switch (File upload vs URL)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone (Ollama)": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Pinecone (Gemini)": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "bf147a83-fdee-494a-8245-924a15c8c93f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f8f1fc8b61aec74c1e88ed5be4727766e3c6c845e41511f1e5a1b467e9cf4060"
+  },
+  "id": "KLbhje5SuCXyz9j8",
+  "tags": []
+}
