@@ -1,0 +1,249 @@
+/* Global Import 'Outfit' font for a smart/playful look */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
+/* Apply font to common text elements. 
+   AVOID targeting bare 'div' or 'span' as that overrides Material Icons ligatures */
+.stApp h1,
+.stApp h2,
+.stApp h3,
+.stApp h4,
+.stApp h5,
+.stApp h6,
+.stApp p,
+.stApp label,
+.stApp button,
+.stApp input,
+.stApp textarea,
+.stApp a,
+.stApp li,
+.stApp .stMarkdown,
+.stApp .stText,
+.stApp .stSelectbox,
+.stApp .stMultiSelect {
+    font-family: 'Outfit', sans-serif !important;
+}
+
+/* Global Background and Text Color (Force Light Mode Appearance) */
+.stApp {
+    background-color: #F8F9FE;
+    color: #2D3748 !important;
+    /* Force dark text to handle system dark mode */
+}
+
+/* Force dark text on specific Streamlit variants that might inherit system dark mode */
+.stRadio label,
+.stRadio div[role="radiogroup"] p {
+    color: #2D3748 !important;
+}
+
+/* Ensure all widget labels are visible */
+.stMarkdown p,
+.stText,
+.stSelectbox label,
+.stMultiSelect label,
+.stTextInput label {
+    color: #2D3748 !important;
+}
+
+/* Hide default Streamlit elements */
+#MainMenu {
+    visibility: hidden;
+}
+
+footer {
+    visibility: hidden;
+}
+
+header {
+    visibility: hidden;
+}
+
+/* Main container width */
+.main .block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    max-width: 1200px;
+}
+
+/* --- Sidebar Styling --- */
+.css-1d391kg,
+[data-testid="stSidebar"] {
+    background-color: #FFFFFF;
+    box-shadow: 2px 0 15px rgba(0, 0, 0, 0.03);
+    border-right: 1px solid #F0F2F6;
+}
+
+/* Profile Image */
+.profile-image {
+    width: 140px;
+    height: 140px;
+    border-radius: 40px;
+    /* Squircle shape for modern feel */
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+    border: 4px solid #FFFFFF;
+    box-shadow: 0 10px 25px rgba(118, 75, 162, 0.15);
+    transition: transform 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: translateY(-5px) scale(1.02);
+}
+
+/* Sidebar Buttons */
+.sidebar .stButton>button {
+    background: white !important;
+    color: #4A5568 !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 16px !important;
+    font-weight: 600 !important;
+    padding: 0.6rem 1.2rem !important;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02) !important;
+}
+
+.sidebar .stButton>button:hover {
+    border-color: #B794F4 !important;
+    color: #805AD5 !important;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(128, 90, 213, 0.1) !important;
+}
+
+/* --- Chat Bubbles --- */
+/* User Message */
+div[data-testid="stChatMessage"][data-message="user"] {
+    background-color: #FFFFFF;
+    border-radius: 20px 20px 4px 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
+    border: 1px solid #EFF0F6;
+    margin-bottom: 1rem;
+}
+
+/* Assistant Message */
+div[data-testid="stChatMessage"][data-message="assistant"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px 20px 20px 4px;
+    color: white;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(118, 75, 162, 0.2);
+}
+
+div[data-testid="stChatMessage"][data-message="assistant"] p {
+    color: white !important;
+}
+
+/* --- Input Field --- */
+.stTextInput>div>div>input {
+    border-radius: 30px;
+    border: 2px solid #E2E8F0;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    background-color: #FFFFFF;
+    color: #2D3748 !important;
+    /* Force dark text for visibility */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    caret-color: #2D3748;
+    /* Force dark caret */
+}
+
+.stTextInput>div>div>input:focus {
+    border-color: #805AD5;
+    box-shadow: 0 0 0 3px rgba(128, 90, 213, 0.1);
+}
+
+/* --- Main CTA Buttons --- */
+.stButton>button[kind="primary"] {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 0.5rem 1.5rem !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+}
+
+.stButton>button[kind="primary"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(118, 75, 162, 0.3);
+}
+
+/* --- Typography & Headers --- */
+h1,
+h2,
+h3 {
+    color: #2D3748;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.stMarkdown p {
+    color: #4A5568;
+    line-height: 1.6;
+}
+
+/* --- Knowledge Section --- */
+.knowledge-section {
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 1.5rem;
+    border: 1px solid #E2E8F0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    margin-top: 1rem;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #C4C8D6;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #A0AEC0;
+}
+
+/* Mobile Responsiveness Improvements */
+@media (max-width: 768px) {
+    .profile-image {
+        width: 100px;
+        height: 100px;
+    }
+
+    .main .block-container {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    h3 {
+        font-size: 1.2rem;
+    }
+}

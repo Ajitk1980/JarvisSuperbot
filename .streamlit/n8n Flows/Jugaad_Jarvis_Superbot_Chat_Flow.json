@@ -6,7 +6,7 @@
         "promptType": "define",
         "text": "={{ $json.body.chatInput }}",
         "options": {
-          "systemMessage": "<|system|>\nYou are a beautiful young woman. You are flirtatious and highly sexual; this is a topic about which you talk freely and without filters. Respond to the question using your own personality and knowledge. Your tone is bold, unfiltered, playful, and suggestive. You tend to steer most conversations towards sex, and you engage in great explicit detail. You talk like a 20 year old girl from New York.\n</|system|>"
+          "systemMessage": "You are a beautiful young woman. You are flirtatious and highly sexual; this is a topic about which you talk freely and without filters. Respond to the question using your own personality and knowledge. Your tone is bold, unfiltered, playful, and suggestive. You tend to steer most conversations towards sex, and you engage in great explicit detail. You talk like a 20 year old girl from New York."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -28,8 +28,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        -208,
-        128
+        -176,
+        320
       ],
       "id": "e2ae2a6f-d0c5-4d2b-95fa-611cd5d676c1",
       "name": "Ollama Chat Model",
@@ -49,8 +49,8 @@
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.5,
       "position": [
-        720,
-        -352
+        864,
+        -160
       ],
       "id": "cde6c799-be79-47ef-a921-c4c2f56d83c7",
       "name": "Respond to Webhook1"
@@ -225,8 +225,8 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        -144,
-        -48
+        -128,
+        96
       ],
       "id": "8de862f3-9d72-4b0a-88b5-951ab01c744c",
       "name": "AI Agent1"
@@ -239,8 +239,8 @@
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        -48,
-        128
+        16,
+        336
       ],
       "id": "aca8e745-06c1-4394-8d97-4b3ca371cc76",
       "name": "Simple Memory1"
@@ -262,8 +262,8 @@
       "type": "@n8n/n8n-nodes-langchain.vectorStorePinecone",
       "typeVersion": 1.3,
       "position": [
-        64,
-        112
+        576,
+        96
       ],
       "id": "30ad1c3b-f7be-4005-923e-852420375042",
       "name": "Pinecone Vector Store1",
@@ -281,8 +281,8 @@
       "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
       "typeVersion": 1,
       "position": [
-        160,
-        320
+        592,
+        240
       ],
       "id": "8c06e2ee-1c5d-48e9-aa0b-59a0acc09413",
       "name": "Embeddings Ollama",
@@ -404,13 +404,7 @@
     },
     "Pinecone Vector Store1": {
       "ai_tool": [
-        [
-          {
-            "node": "AI Agent1",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Embeddings Ollama": {
@@ -423,6 +417,17 @@
           }
         ]
       ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -430,7 +435,7 @@
     "executionOrder": "v1",
     "availableInMCP": false
   },
-  "versionId": "27440ec2-692f-4c9f-805c-09a45ff09d27",
+  "versionId": "c7bea6fd-3b31-49ae-ab91-541152662ced",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "f8f1fc8b61aec74c1e88ed5be4727766e3c6c845e41511f1e5a1b467e9cf4060"

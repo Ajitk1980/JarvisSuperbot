@@ -5,15 +5,18 @@ from typing import Optional, Dict, Any
 
 class JarvisClient:
     def __init__(self):
+        self.demo_mode = False
         try:
-            # FIX: Rename these variables to avoid conflict with method names
             self.chat_webhook_url = st.secrets["n8n"]["chat_webhook"]
             self.ingest_webhook_url = st.secrets["n8n"]["ingest_webhook"]
-        except FileNotFoundError:
-            st.error("Configuration file (.streamlit/secrets.toml) is missing.")
-            st.stop()
+        except (FileNotFoundError, KeyError):
+            self.demo_mode = True
+            st.warning("⚠️ Secrets not found. Running in Demo Mode (Mock Responses).")
 
     def send_message(self, message: str, session_id: str, optimize_for: str = "cost") -> str:
+        if self.demo_mode:
+            return "🤖 [DEMO] This is a simulated response because no API keys were found. The UI layout looks great though!"
+
         payload = {
             "chatInput": message,
             "sessionId": session_id,
@@ -70,6 +73,11 @@ class JarvisClient:
             return f"⚠️ Network Error: {str(e)}"
 
     def upload_document(self, file_obj: Any, optimize_for: str = "cost") -> bool:
+        if self.demo_mode:
+            import time
+            time.sleep(1.5) # Simulate processing
+            return True
+
         files = {"data": (file_obj.name, file_obj, file_obj.type)}
         data = {"optimise_for": optimize_for}
         
@@ -83,6 +91,11 @@ class JarvisClient:
             return False
 
     def ingest_url(self, url: str, optimize_for: str = "cost") -> bool:
+        if self.demo_mode:
+            import time
+            time.sleep(1.0)
+            return True
+
         payload = {"url": url, "optimise_for": optimize_for}
         try:
             # FIX: Use the new variable name here
