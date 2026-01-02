@@ -104,6 +104,13 @@ with st.sidebar:
         
         st.markdown('</div>', unsafe_allow_html=True)
 
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # Clear Chat Button
+    if st.button("🗑️ Clear Chat", use_container_width=True, key="clear_chat_btn"):
+        st.session_state.messages = []
+        st.rerun()
+
 # --- Main Chat Interface ---
 # Header with performance mode (top right corner style)
 col1, col2 = st.columns([5, 1])
