@@ -16,7 +16,7 @@ def run():
             try:
                 # Basic args that work for most
                 browser = browser_type.launch(
-                    headless=True,
+                    headless=False,
                     args=['--no-sandbox', '--disable-dev-shm-usage'] if name == "chromium" else []
                 )
                 print(f"{name} launched successfully.")

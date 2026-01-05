@@ -57,7 +57,7 @@ with st.sidebar:
         st.markdown("**Performance Mode**")
         kb_optimise_for = st.radio(
             "Select optimization mode",
-            options=["Cost", "Power"],
+            options=["Auto", "Cost", "Power"],
             index=0,
             key="kb_optimise_for",
             label_visibility="collapsed"
@@ -121,7 +121,7 @@ with col1:
 with col2:
     chat_optimise_for = st.radio(
         "Chat Optimization Mode",
-        options=["Cost", "Power"],
+        options=["Auto", "Cost", "Power"],
         index=0,
         key="chat_optimise_for",
         horizontal=True,

@@ -65,6 +65,12 @@ header {
     max-width: 1200px;
 }
 
+/* Sidebar control visibility restored to resolve access issues */
+[data-testid="collapsedControl"] {
+    display: none;
+}
+
+
 /* --- Sidebar Styling --- */
 .css-1d391kg,
 [data-testid="stSidebar"] {

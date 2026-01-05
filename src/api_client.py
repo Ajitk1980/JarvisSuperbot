@@ -24,7 +24,7 @@ class JarvisClient:
         }
         try:
             # FIX: Use the new variable name here
-            response = requests.post(self.chat_webhook_url, json=payload, timeout=30)
+            response = requests.post(self.chat_webhook_url, json=payload, timeout=300)
             
             if response.status_code != 200:
                 try:
@@ -83,7 +83,7 @@ class JarvisClient:
         
         try:
             # FIX: Use the new variable name here
-            response = requests.post(self.ingest_webhook_url, files=files, data=data, timeout=60)
+            response = requests.post(self.ingest_webhook_url, files=files, data=data, timeout=600)
             response.raise_for_status()
             return True
         except requests.exceptions.RequestException as e:
@@ -99,7 +99,7 @@ class JarvisClient:
         payload = {"url": url, "optimise_for": optimize_for}
         try:
             # FIX: Use the new variable name here
-            response = requests.post(self.ingest_webhook_url, json=payload, timeout=30)
+            response = requests.post(self.ingest_webhook_url, json=payload, timeout=300)
             response.raise_for_status()
             return True
         except requests.exceptions.RequestException as e:
